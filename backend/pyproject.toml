@@ -1,0 +1,8 @@
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+exclude = ["*/migrations/*", "__pycache__", ".venv", "venv"]
+
+[tool.ruff.lint]
+select = ["E", "F"]
+ignore = ["E501"]

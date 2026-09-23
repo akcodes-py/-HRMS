@@ -24,7 +24,9 @@ class AttendanceViewSet(viewsets.ModelViewSet):
     ordering = ['-date']
 
     def get_permissions(self):
-        if self.action in ['destroy', 'update', 'partial_update']:
+        # See employees.views for why admin actions are listed here rather
+        # than on @action(permission_classes=...).
+        if self.action in ['destroy', 'update', 'partial_update', 'today_summary']:
             return [IsAuthenticated(), IsAdminRole()]
         return [IsAuthenticated()]
 
@@ -82,8 +84,7 @@ class AttendanceViewSet(viewsets.ModelViewSet):
             )
         )
 
-    @action(detail=False, methods=['get'], url_path='today',
-            permission_classes=[IsAuthenticated, IsAdminRole])
+    @action(detail=False, methods=['get'], url_path='today')
     def today_summary(self, request):
         """Admin dashboard: attendance summary for today."""
         return Response(build_today_summary())

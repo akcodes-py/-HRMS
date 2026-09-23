@@ -22,7 +22,11 @@ class LeaveViewSet(viewsets.ModelViewSet):
     ordering = ['-applied_on']
 
     def get_permissions(self):
-        if self.action in ['destroy', 'approve', 'reject']:
+        # See employees.views for why admin actions are listed here rather
+        # than on @action(permission_classes=...).
+        if self.action in [
+            'destroy', 'approve', 'reject', 'pending_count', 'summary'
+        ]:
             return [IsAuthenticated(), IsAdminRole()]
         return [IsAuthenticated()]
 
@@ -64,14 +68,12 @@ class LeaveViewSet(viewsets.ModelViewSet):
         )
         return Response(LeaveSerializer(updated, context={'request': request}).data)
 
-    @action(detail=False, methods=['get'], url_path='pending-count',
-            permission_classes=[IsAuthenticated, IsAdminRole])
+    @action(detail=False, methods=['get'], url_path='pending-count')
     def pending_count(self, request):
         count = Leave.objects.filter(status=Leave.STATUS_PENDING).count()
         return Response({'pending_count': count})
 
-    @action(detail=False, methods=['get'], url_path='summary',
-            permission_classes=[IsAuthenticated, IsAdminRole])
+    @action(detail=False, methods=['get'], url_path='summary')
     def summary(self, request):
         """Recent pending leave requests for admin dashboard."""
         pending = Leave.objects.filter(status=Leave.STATUS_PENDING).order_by('-applied_on')[:5]

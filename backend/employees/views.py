@@ -25,7 +25,11 @@ class EmployeeViewSet(viewsets.ModelViewSet):
         return EmployeeSerializer
 
     def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+        # Single source of truth for role checks. Do not add
+        # permission_classes to @action decorators — get_permissions()
+        # overrides them, so listing admin actions here keeps behavior
+        # explicit and prevents the two from drifting apart.
+        if self.action in ['create', 'update', 'partial_update', 'destroy', 'stats']:
             return [IsAuthenticated(), IsAdminRole()]
         return [IsAuthenticated()]
 
@@ -39,12 +43,12 @@ class EmployeeViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(employment_status=emp_status)
         return queryset
 
-    @action(detail=False, methods=['get'], url_path='stats', permission_classes=[IsAuthenticated, IsAdminRole])
+    @action(detail=False, methods=['get'], url_path='stats')
     def stats(self, request):
         """Return aggregate employee statistics for the admin dashboard."""
         return Response(employee_dashboard_stats())
 
-    @action(detail=False, methods=['get'], url_path='my-profile', permission_classes=[IsAuthenticated])
+    @action(detail=False, methods=['get'], url_path='my-profile')
     def my_profile(self, request):
         """Return the employee profile linked to the current user."""
         employee = get_employee_for_user(request.user)
