@@ -25,8 +25,20 @@ class LeaveSerializer(serializers.ModelSerializer):
         read_only_fields = ['applied_on', 'reviewed_by', 'reviewed_on', 'status']
 
     def validate(self, data):
-        start = data.get('start_date')
-        end = data.get('end_date')
-        if start and end and end < start:
-            raise serializers.ValidationError({'end_date': 'End date must be on or after start date.'})
+        start = data.get('start_date', getattr(self.instance, 'start_date', None))
+        end = data.get('end_date', getattr(self.instance, 'end_date', None))
+        if start and end:
+            if end < start:
+                raise serializers.ValidationError(
+                    {'end_date': 'End date must be on or after start date.'}
+                )
+            if (end - start).days > 90:
+                raise serializers.ValidationError(
+                    {'end_date': 'A single leave request cannot exceed 90 days.'}
+                )
+        reason = data.get('reason', getattr(self.instance, 'reason', None))
+        if reason is not None and len(reason.strip()) < 5:
+            raise serializers.ValidationError(
+                {'reason': 'Please provide a brief reason (at least 5 characters).'}
+            )
         return data

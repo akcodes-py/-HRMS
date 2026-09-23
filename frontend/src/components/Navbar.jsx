@@ -1,4 +1,4 @@
-import { Bell, Search } from 'lucide-react'
+import { Bell } from 'lucide-react'
 import { useAuth } from '../hooks/useAuth'
 
 const Navbar = ({ title }) => {
@@ -9,7 +9,7 @@ const Navbar = ({ title }) => {
     : user?.username?.[0]?.toUpperCase() || '?'
 
   return (
-    <header className="sticky top-0 z-20 bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between shadow-sm">
+    <header className="sticky top-0 z-20 bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between">
       {/* Page Title */}
       <h1 className="text-lg font-semibold text-slate-800">
         {title || 'Dashboard'}

@@ -62,12 +62,12 @@ const EmployeeDetail = () => {
       </div>
 
       {/* Profile Card */}
-      <div className="bg-white rounded-xl border border-slate-100 overflow-hidden">
+      <div className="bg-white rounded border border-slate-200 overflow-hidden">
         {/* Banner */}
-        <div className="h-24 bg-gradient-to-r from-indigo-600 to-indigo-400" />
+        <div className="h-16 bg-slate-200" />
         <div className="px-6 pb-6">
           <div className="flex items-end gap-4 -mt-10 mb-4">
-            <div className="w-20 h-20 rounded-xl bg-white border-4 border-white shadow-sm flex items-center justify-center overflow-hidden">
+            <div className="w-20 h-20 rounded bg-white border border-slate-200 flex items-center justify-center overflow-hidden">
               {employee.profile_picture ? (
                 <img src={employee.profile_picture} alt="Profile" className="w-full h-full object-cover" />
               ) : (

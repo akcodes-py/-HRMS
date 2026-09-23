@@ -23,7 +23,9 @@ EMPLOYMENT_STATUS_CHOICES = [
 
 
 class Employee(models.Model):
-    employee_id = models.CharField(max_length=20, unique=True, editable=False)
+    employee_id = models.CharField(
+        max_length=20, unique=True, editable=False, blank=True, null=True
+    )
     user = models.OneToOneField(
         CustomUser,
         on_delete=models.SET_NULL,
@@ -59,11 +61,15 @@ class Employee(models.Model):
         verbose_name_plural = 'Employees'
 
     def save(self, *args, **kwargs):
+        # Two-step save so employee_id derives from the row's own primary
+        # key. The previous implementation read MAX(id)+1 before insert,
+        # which races when two HR users create employees concurrently.
+        # Deriving from our own pk after the initial insert is collision-free.
         if not self.employee_id:
-            # Generate a sequential EMP-ID
-            last = Employee.objects.order_by('id').last()
-            next_id = (last.id + 1) if last else 1
-            self.employee_id = f'EMP{next_id:04d}'
+            super().save(*args, **kwargs)
+            self.employee_id = f'EMP{self.pk:04d}'
+            super().save(update_fields=['employee_id'])
+            return
         super().save(*args, **kwargs)
 
     def get_full_name(self):

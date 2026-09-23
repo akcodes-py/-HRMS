@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from rest_framework import serializers
 from .models import Employee
 from accounts.serializers import UserSerializer
@@ -44,3 +46,13 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     def get_full_name(self, obj):
         return obj.get_full_name()
+
+    def validate_salary(self, value):
+        if value is not None and value < 0:
+            raise serializers.ValidationError('Salary cannot be negative.')
+        return value
+
+    def validate_joining_date(self, value):
+        if value and value > timezone.now().date():
+            raise serializers.ValidationError('Joining date cannot be in the future.')
+        return value

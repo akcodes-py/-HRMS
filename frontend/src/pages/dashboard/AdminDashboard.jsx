@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Users, UserCheck, CalendarCheck, Clock,
-  Plus, TrendingUp, FileText,
+  Plus, FileText,
 } from 'lucide-react'
 import DashboardCard from '../../components/DashboardCard'
 import StatusBadge from '../../components/StatusBadge'
@@ -79,7 +79,7 @@ const AdminDashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Today's Attendance Summary */}
-        <div className="bg-white rounded-xl border border-slate-100 p-5">
+        <div className="bg-white rounded border border-slate-200 p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-slate-700 text-sm">Today's Attendance</h3>
             <Link
@@ -123,7 +123,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Pending Leave Requests */}
-        <div className="bg-white rounded-xl border border-slate-100 p-5">
+        <div className="bg-white rounded border border-slate-200 p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-slate-700 text-sm">Pending Leave Requests</h3>
             <Link
@@ -165,7 +165,7 @@ const AdminDashboard = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-xl border border-slate-100 p-5">
+      <div className="bg-white rounded border border-slate-200 p-5">
         <h3 className="font-semibold text-slate-700 text-sm mb-4">Quick Actions</h3>
         <div className="flex flex-wrap gap-3">
           <Link

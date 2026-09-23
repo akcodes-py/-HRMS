@@ -114,7 +114,7 @@ const LeaveList = () => {
         </Link>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-100 p-4">
+      <div className="bg-white rounded border border-slate-200 p-4">
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
@@ -127,7 +127,7 @@ const LeaveList = () => {
         </select>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-100 overflow-hidden">
+      <div className="bg-white rounded border border-slate-200 overflow-hidden">
         <DataTable
           columns={columns}
           data={leaves}

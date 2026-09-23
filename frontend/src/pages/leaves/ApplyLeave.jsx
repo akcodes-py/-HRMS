@@ -83,7 +83,7 @@ const ApplyLeave = () => {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-slate-100 p-6 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-white rounded border border-slate-200 p-6 space-y-4">
         {isAdmin() && (
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">Employee <span className="text-red-500">*</span></label>
@@ -161,7 +161,7 @@ const ApplyLeave = () => {
           {errors.reason && <p className="mt-1 text-xs text-red-500">{errors.reason}</p>}
         </div>
 
-        <div className="flex gap-3 justify-end pt-2 border-t border-slate-100">
+        <div className="flex gap-3 justify-end pt-2 border-t border-slate-200">
           <button type="button" onClick={() => navigate('/leaves')} className="px-4 py-2 text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg">Cancel</button>
           <button type="submit" disabled={saving} className="flex items-center gap-2 px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white rounded-lg">
             {saving ? <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Submitting...</> : <><Send size={14} /> Submit Request</>}

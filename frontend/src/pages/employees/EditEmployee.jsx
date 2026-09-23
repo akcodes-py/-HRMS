@@ -102,7 +102,7 @@ const EditEmployee = () => {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-slate-100 p-6 space-y-5">
+      <form onSubmit={handleSubmit} className="bg-white rounded border border-slate-200 p-6 space-y-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {[
             { field: 'first_name', label: 'First Name', type: 'text', placeholder: 'John' },
@@ -163,7 +163,7 @@ const EditEmployee = () => {
           />
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
           <button type="button" onClick={() => navigate(-1)} className="px-4 py-2 text-sm font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg">Cancel</button>
           <button type="submit" disabled={saving} className="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 text-white rounded-lg">
             {saving ? <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Saving...</> : <><Save size={15} /> Save Changes</>}

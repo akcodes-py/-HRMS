@@ -6,7 +6,9 @@ from django.utils import timezone
 
 from .models import Attendance
 from .serializers import AttendanceSerializer
-from employees.models import Employee
+from .services import monthly_summary as build_monthly_summary
+from .services import today_summary as build_today_summary
+from employees.services import get_employee_for_user
 from accounts.permissions import IsAdminRole
 
 
@@ -22,7 +24,9 @@ class AttendanceViewSet(viewsets.ModelViewSet):
     ordering = ['-date']
 
     def get_permissions(self):
-        if self.action in ['destroy', 'update', 'partial_update']:
+        # See employees.views for why admin actions are listed here rather
+        # than on @action(permission_classes=...).
+        if self.action in ['destroy', 'update', 'partial_update', 'today_summary']:
             return [IsAuthenticated(), IsAdminRole()]
         return [IsAuthenticated()]
 
@@ -47,11 +51,10 @@ class AttendanceViewSet(viewsets.ModelViewSet):
 
         # Employees can only see their own records
         if self.request.user.role != 'admin':
-            try:
-                emp = self.request.user.employee_profile
-                queryset = queryset.filter(employee=emp)
-            except Exception:
+            emp = get_employee_for_user(self.request.user)
+            if emp is None:
                 return queryset.none()
+            queryset = queryset.filter(employee=emp)
 
         return queryset
 
@@ -62,46 +65,26 @@ class AttendanceViewSet(viewsets.ModelViewSet):
         year = request.query_params.get('year', timezone.now().year)
         employee_id = request.query_params.get('employee')
 
-        queryset = Attendance.objects.filter(date__month=month, date__year=year)
-
         if employee_id:
-            queryset = queryset.filter(employee_id=employee_id)
+            queryset_employee_id = employee_id
         elif request.user.role != 'admin':
-            try:
-                emp = request.user.employee_profile
-                queryset = queryset.filter(employee=emp)
-            except Exception:
-                return Response({'error': 'Employee profile not linked.'}, status=404)
+            emp = get_employee_for_user(request.user)
+            if emp is None:
+                return Response(
+                    {'error': 'Employee profile not linked.'},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+            queryset_employee_id = emp.pk
+        else:
+            queryset_employee_id = None
 
-        present = queryset.filter(status='present').count()
-        absent = queryset.filter(status='absent').count()
-        wfh = queryset.filter(status='wfh').count()
-        half_day = queryset.filter(status='half_day').count()
+        return Response(
+            build_monthly_summary(
+                month=month, year=year, employee_id=queryset_employee_id
+            )
+        )
 
-        return Response({
-            'month': int(month),
-            'year': int(year),
-            'present': present,
-            'absent': absent,
-            'wfh': wfh,
-            'half_day': half_day,
-            'total': present + absent + wfh + half_day,
-        })
-
-    @action(detail=False, methods=['get'], url_path='today',
-            permission_classes=[IsAuthenticated, IsAdminRole])
+    @action(detail=False, methods=['get'], url_path='today')
     def today_summary(self, request):
         """Admin dashboard: attendance summary for today."""
-        today = timezone.now().date()
-        records = Attendance.objects.filter(date=today)
-        total_active = Employee.objects.filter(employment_status='active').count()
-
-        return Response({
-            'date': today,
-            'present': records.filter(status='present').count(),
-            'absent': records.filter(status='absent').count(),
-            'wfh': records.filter(status='wfh').count(),
-            'half_day': records.filter(status='half_day').count(),
-            'total_active_employees': total_active,
-            'not_marked': max(0, total_active - records.count()),
-        })
+        return Response(build_today_summary())

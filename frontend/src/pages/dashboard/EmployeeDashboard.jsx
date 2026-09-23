@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { CalendarCheck, CalendarOff, User, Plus } from 'lucide-react'
+import { CalendarCheck, CalendarOff, Plus } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth'
 import DashboardCard from '../../components/DashboardCard'
 import StatusBadge from '../../components/StatusBadge'
@@ -46,12 +46,12 @@ const EmployeeDashboard = () => {
   return (
     <div className="space-y-6">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-xl p-6 text-white">
-        <p className="text-indigo-200 text-sm mb-1">Welcome back,</p>
-        <h2 className="text-2xl font-bold">
+      <div className="bg-white rounded border border-slate-200 p-5">
+        <p className="text-slate-500 text-sm mb-1">Welcome back,</p>
+        <h2 className="text-xl font-bold text-slate-900">
           {user?.first_name ? `${user.first_name} ${user.last_name}` : user?.username}
         </h2>
-        <p className="text-indigo-200 text-sm mt-1">
+        <p className="text-slate-500 text-sm mt-1">
           {profile?.designation} · {profile?.department_display || profile?.department}
         </p>
       </div>
@@ -88,7 +88,7 @@ const EmployeeDashboard = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Profile Summary */}
-        <div className="bg-white rounded-xl border border-slate-100 p-5">
+        <div className="bg-white rounded border border-slate-200 p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-slate-700 text-sm">My Profile</h3>
             <Link to="/profile" className="text-xs text-indigo-600 hover:text-indigo-700 font-medium">
@@ -120,7 +120,7 @@ const EmployeeDashboard = () => {
         </div>
 
         {/* Recent Leaves */}
-        <div className="bg-white rounded-xl border border-slate-100 p-5">
+        <div className="bg-white rounded border border-slate-200 p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-slate-700 text-sm">My Recent Leaves</h3>
             <Link to="/leaves/apply" className="flex items-center gap-1 text-xs text-indigo-600 hover:text-indigo-700 font-medium">

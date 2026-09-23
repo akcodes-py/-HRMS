@@ -59,9 +59,8 @@ const Sidebar = () => {
       {/* Collapse Toggle */}
       <button
         onClick={() => setCollapsed(!collapsed)}
-        className="absolute -right-3 top-16 w-6 h-6 bg-slate-700 hover:bg-indigo-500
-          rounded-full flex items-center justify-center text-white shadow-lg z-10
-          transition-colors duration-200"
+        className="absolute -right-3 top-16 w-6 h-6 bg-slate-700 hover:bg-slate-600
+          rounded-full flex items-center justify-center text-white z-10"
         aria-label="Toggle Sidebar"
       >
         {collapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
@@ -94,10 +93,9 @@ const Sidebar = () => {
             to={to}
             end={to === '/dashboard'}
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
-              transition-all duration-150 group
+              `flex items-center gap-3 px-3 py-2.5 rounded text-sm font-medium
               ${isActive
-                ? 'bg-indigo-600 text-white shadow-sm'
+                ? 'bg-slate-700 text-white'
                 : 'text-slate-300 hover:bg-slate-700 hover:text-white'
               }`
             }
@@ -114,10 +112,9 @@ const Sidebar = () => {
           <NavLink
             to="/profile"
             className={({ isActive }) =>
-              `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
-              transition-all duration-150
+              `flex items-center gap-3 px-3 py-2.5 rounded text-sm font-medium
               ${isActive
-                ? 'bg-indigo-600 text-white'
+                ? 'bg-slate-700 text-white'
                 : 'text-slate-300 hover:bg-slate-700 hover:text-white'
               }`
             }
