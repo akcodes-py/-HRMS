@@ -11,8 +11,7 @@ A full-stack Human Resource Management System built with **Django REST Framework
 | Backend | Python, Django, Django REST Framework |
 | Frontend | React, Vite, JavaScript, CSS |
 | Database | SQLite (development), PostgreSQL (production) |
-| Deployment | Railway (backend), Vite build (frontend) |
-| Server | Gunicorn |
+| Server | 
 
 ---
 
