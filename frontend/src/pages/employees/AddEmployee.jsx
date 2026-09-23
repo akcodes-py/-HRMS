@@ -121,10 +121,10 @@ const AddEmployee = () => {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-slate-100 p-6">
+      <form onSubmit={handleSubmit} className="bg-white rounded border border-slate-200 p-6">
         {/* Personal Info */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-slate-700 mb-4 pb-2 border-b border-slate-100">
+          <h3 className="text-sm font-semibold text-slate-700 mb-4 pb-2 border-b border-slate-200">
             Personal Information
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -145,7 +145,7 @@ const AddEmployee = () => {
 
         {/* Employment Info */}
         <div className="mb-6">
-          <h3 className="text-sm font-semibold text-slate-700 mb-4 pb-2 border-b border-slate-100">
+          <h3 className="text-sm font-semibold text-slate-700 mb-4 pb-2 border-b border-slate-200">
             Employment Details
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -206,7 +206,7 @@ const AddEmployee = () => {
         </div>
 
         {/* Actions */}
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+        <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
           <button
             type="button"
             onClick={() => navigate('/employees')}

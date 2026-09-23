@@ -21,17 +21,17 @@ const Modal = ({ open, onClose, title, children, size = 'md' }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/50"
         onClick={onClose}
       />
 
       {/* Dialog */}
       <div
-        className={`relative bg-white rounded-xl shadow-2xl w-full ${sizeMap[size] || sizeMap.md}
+        className={`relative bg-white rounded border border-slate-200 w-full ${sizeMap[size] || sizeMap.md}
           max-h-[90vh] flex flex-col`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
           <h2 className="text-base font-semibold text-slate-800">{title}</h2>
           <button
             onClick={onClose}

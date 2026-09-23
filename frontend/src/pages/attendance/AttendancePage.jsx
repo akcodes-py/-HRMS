@@ -11,7 +11,7 @@ import { useToast } from '../../hooks/useToast'
 const today = new Date().toISOString().split('T')[0]
 
 const AttendancePage = () => {
-  const { isAdmin, user } = useAuth()
+  const { isAdmin } = useAuth()
   const toast = useToast()
 
   const [records, setRecords] = useState([])
@@ -109,7 +109,7 @@ const AttendancePage = () => {
             { label: 'Absent', value: summary.absent, color: 'text-red-500', bg: 'bg-red-50' },
             { label: 'Half Day', value: summary.half_day, color: 'text-amber-600', bg: 'bg-amber-50' },
           ].map(({ label, value, color, bg }) => (
-            <div key={label} className={`${bg} rounded-xl p-4 text-center`}>
+            <div key={label} className={`${bg} rounded p-4 text-center`}>
               <p className={`text-2xl font-bold ${color}`}>{value ?? 0}</p>
               <p className="text-xs text-slate-500 mt-1">{label}</p>
             </div>
@@ -118,7 +118,7 @@ const AttendancePage = () => {
       )}
 
       {/* Controls */}
-      <div className="bg-white rounded-xl border border-slate-100 p-4">
+      <div className="bg-white rounded border border-slate-200 p-4">
         <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
           <div className="flex gap-3 flex-wrap">
             <select
@@ -156,7 +156,7 @@ const AttendancePage = () => {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl border border-slate-100 overflow-hidden">
+      <div className="bg-white rounded border border-slate-200 overflow-hidden">
         <DataTable
           columns={columns}
           data={records}

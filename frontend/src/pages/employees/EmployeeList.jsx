@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Plus, Pencil, Trash2, Eye, Filter } from 'lucide-react'
+import { Plus, Pencil, Trash2, Eye } from 'lucide-react'
 import DataTable from '../../components/DataTable'
 import SearchBar from '../../components/SearchBar'
 import StatusBadge from '../../components/StatusBadge'
@@ -147,7 +147,7 @@ const EmployeeList = () => {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-xl border border-slate-100 p-4">
+      <div className="bg-white rounded border border-slate-200 p-4">
         <div className="flex flex-col sm:flex-row gap-3">
           <SearchBar
             value={search}
@@ -180,7 +180,7 @@ const EmployeeList = () => {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-xl border border-slate-100 overflow-hidden">
+      <div className="bg-white rounded border border-slate-200 overflow-hidden">
         <DataTable
           columns={columns}
           data={employees}
@@ -191,7 +191,7 @@ const EmployeeList = () => {
 
         {/* Pagination */}
         {pagination.totalPages > 1 && (
-          <div className="flex items-center justify-between px-4 py-3 border-t border-slate-100">
+          <div className="flex items-center justify-between px-4 py-3 border-t border-slate-200">
             <p className="text-xs text-slate-500">
               Page {pagination.page} of {pagination.totalPages}
             </p>

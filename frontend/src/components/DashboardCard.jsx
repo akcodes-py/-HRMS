@@ -34,7 +34,7 @@ const DashboardCard = ({ title, value, icon: Icon, color = 'indigo', subtitle, t
       bg: 'bg-slate-50',
       icon: 'bg-slate-100 text-slate-600',
       text: 'text-slate-600',
-      border: 'border-slate-100',
+      border: 'border-slate-200',
     },
   }
 
@@ -42,7 +42,7 @@ const DashboardCard = ({ title, value, icon: Icon, color = 'indigo', subtitle, t
 
   return (
     <div
-      className={`bg-white rounded-xl border ${c.border} p-5 card-hover
+      className={`bg-white rounded border ${c.border} p-5
         flex items-start justify-between gap-4`}
     >
       <div className="flex-1 min-w-0">
@@ -60,7 +60,7 @@ const DashboardCard = ({ title, value, icon: Icon, color = 'indigo', subtitle, t
         )}
       </div>
       {Icon && (
-        <div className={`w-11 h-11 rounded-xl ${c.icon} flex items-center justify-center flex-shrink-0`}>
+        <div className={`w-11 h-11 rounded ${c.icon} flex items-center justify-center flex-shrink-0`}>
           <Icon size={22} />
         </div>
       )}

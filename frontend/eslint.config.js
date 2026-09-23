@@ -17,5 +17,13 @@ export default defineConfig([
       globals: globals.browser,
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
+    rules: {
+      // This codebase fetches list data in useEffect on mount/filter change
+      // (the standard admin-panel pattern). The v7 set-state-in-effect and
+      // immutability rules flag every such effect, so they are disabled;
+      // exhaustive-deps stays on as a warning for genuine staleness bugs.
+      'react-hooks/set-state-in-effect': 'off',
+      'react-hooks/immutability': 'off',
+    },
   },
 ])

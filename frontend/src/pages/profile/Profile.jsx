@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Save, Camera } from 'lucide-react'
+import { Save } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth'
 import { authService } from '../../services/authService'
 import { employeeService } from '../../services/employeeService'
@@ -12,22 +12,17 @@ const Profile = () => {
   const [profile, setProfile] = useState(null)
   const [form, setForm] = useState({ first_name: '', last_name: '', phone: '', department: '' })
   const [saving, setSaving] = useState(false)
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const init = async () => {
-      try {
-        const empRes = await employeeService.myProfile().catch(() => ({ data: null }))
-        setProfile(empRes.data)
-        setForm({
-          first_name: user?.first_name || '',
-          last_name: user?.last_name || '',
-          phone: user?.phone || '',
-          department: user?.department || '',
-        })
-      } finally {
-        setLoading(false)
-      }
+      const empRes = await employeeService.myProfile().catch(() => ({ data: null }))
+      setProfile(empRes.data)
+      setForm({
+        first_name: user?.first_name || '',
+        last_name: user?.last_name || '',
+        phone: user?.phone || '',
+        department: user?.department || '',
+      })
     }
     init()
   }, [user])
@@ -54,12 +49,12 @@ const Profile = () => {
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Profile Header Card */}
-      <div className="bg-white rounded-xl border border-slate-100 overflow-hidden">
-        <div className="h-20 bg-gradient-to-r from-indigo-600 to-indigo-400" />
+      <div className="bg-white rounded border border-slate-200 overflow-hidden">
+        <div className="h-16 bg-slate-200" />
         <div className="px-6 pb-6">
           <div className="flex items-end gap-4 -mt-8 mb-4">
             <div className="relative">
-              <div className="w-16 h-16 rounded-xl bg-indigo-100 border-4 border-white shadow-sm flex items-center justify-center">
+              <div className="w-16 h-16 rounded bg-slate-100 border border-slate-200 flex items-center justify-center">
                 {user?.profile_picture ? (
                   <img src={user.profile_picture} alt="Avatar" className="w-full h-full rounded-lg object-cover" />
                 ) : (
@@ -97,7 +92,7 @@ const Profile = () => {
       </div>
 
       {/* Edit Form */}
-      <div className="bg-white rounded-xl border border-slate-100 p-6">
+      <div className="bg-white rounded border border-slate-200 p-6">
         <h3 className="text-sm font-semibold text-slate-700 mb-4">Edit Profile</h3>
         <form onSubmit={handleSave} className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -130,7 +125,7 @@ const Profile = () => {
             </div>
           </div>
 
-          <div className="flex justify-end pt-2 border-t border-slate-100">
+          <div className="flex justify-end pt-2 border-t border-slate-200">
             <button
               type="submit"
               disabled={saving}

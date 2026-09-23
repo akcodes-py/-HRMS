@@ -3,6 +3,14 @@ import { authService } from '../services/authService'
 
 const AuthContext = createContext(null)
 
+// Context + hook live together by convention; not a component file.
+// eslint-disable-next-line react-refresh/only-export-components
+export const useAuthContext = () => {
+  const ctx = useContext(AuthContext)
+  if (!ctx) throw new Error('useAuthContext must be used inside <AuthProvider>')
+  return ctx
+}
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const stored = localStorage.getItem('hrms_user')
@@ -15,10 +23,18 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const [initializing, setInitializing] = useState(true)
 
+  const clearAuth = useCallback(() => {
+    setUser(null)
+    setTokens(null)
+    localStorage.removeItem('hrms_tokens')
+    localStorage.removeItem('hrms_user')
+  }, [])
+
   // On mount, validate stored token by fetching current user
   useEffect(() => {
     const init = async () => {
-      if (tokens?.access) {
+      const stored = localStorage.getItem('hrms_tokens')
+      if (stored) {
         try {
           const { data } = await authService.me()
           setUser(data)
@@ -31,14 +47,7 @@ export const AuthProvider = ({ children }) => {
       setInitializing(false)
     }
     init()
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const clearAuth = () => {
-    setUser(null)
-    setTokens(null)
-    localStorage.removeItem('hrms_tokens')
-    localStorage.removeItem('hrms_user')
-  }
+  }, [clearAuth])
 
   const login = useCallback(async (username, password) => {
     setLoading(true)
@@ -74,7 +83,7 @@ export const AuthProvider = ({ children }) => {
     } finally {
       clearAuth()
     }
-  }, [tokens])
+  }, [tokens, clearAuth])
 
   const isAdmin = () => user?.role === 'admin'
   const isEmployee = () => user?.role === 'employee'
@@ -96,12 +105,6 @@ export const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   )
-}
-
-export const useAuthContext = () => {
-  const ctx = useContext(AuthContext)
-  if (!ctx) throw new Error('useAuthContext must be used inside <AuthProvider>')
-  return ctx
 }
 
 export default AuthContext

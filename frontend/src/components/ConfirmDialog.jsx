@@ -20,8 +20,8 @@ const ConfirmDialog = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 flex flex-col items-center gap-4">
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      <div className="relative bg-white rounded border border-slate-200 w-full max-w-sm p-6 flex flex-col items-center gap-4">
         <div className={`w-12 h-12 rounded-full flex items-center justify-center
           ${variant === 'danger' ? 'bg-red-100' : 'bg-indigo-100'}`}>
           <AlertTriangle size={22} className={variant === 'danger' ? 'text-red-600' : 'text-indigo-600'} />

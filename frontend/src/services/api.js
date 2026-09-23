@@ -1,7 +1,10 @@
 import axios from 'axios'
 
+// VITE_API_BASE_URL points at the DRF backend in production
+// (e.g. https://hrms-api.up.railway.app/api). In local dev it is unset
+// and Vite proxies /api to localhost:8000 (see vite.config.js).
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
   headers: {
     'Content-Type': 'application/json',
   },
