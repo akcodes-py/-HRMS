@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import Employee
 from .serializers import EmployeeSerializer, EmployeeListSerializer
+from .services import employee_dashboard_stats, get_employee_for_user
 from accounts.permissions import IsAdminRole
 
 
@@ -41,35 +42,16 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], url_path='stats', permission_classes=[IsAuthenticated, IsAdminRole])
     def stats(self, request):
         """Return aggregate employee statistics for the admin dashboard."""
-        total = Employee.objects.count()
-        active = Employee.objects.filter(employment_status='active').count()
-        inactive = Employee.objects.filter(employment_status='inactive').count()
-        terminated = Employee.objects.filter(employment_status='terminated').count()
-        on_leave = Employee.objects.filter(employment_status='on_leave').count()
-
-        # Department breakdown
-        from django.db.models import Count
-        dept_breakdown = (
-            Employee.objects.values('department')
-            .annotate(count=Count('id'))
-            .order_by('-count')
-        )
-
-        return Response({
-            'total': total,
-            'active': active,
-            'inactive': inactive,
-            'terminated': terminated,
-            'on_leave': on_leave,
-            'department_breakdown': list(dept_breakdown),
-        })
+        return Response(employee_dashboard_stats())
 
     @action(detail=False, methods=['get'], url_path='my-profile', permission_classes=[IsAuthenticated])
     def my_profile(self, request):
         """Return the employee profile linked to the current user."""
-        try:
-            employee = request.user.employee_profile
-            serializer = EmployeeSerializer(employee, context={'request': request})
-            return Response(serializer.data)
-        except Employee.DoesNotExist:
-            return Response({'error': 'No employee profile linked to your account.'}, status=404)
+        employee = get_employee_for_user(request.user)
+        if employee is None:
+            return Response(
+                {'error': 'No employee profile linked to your account.'},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+        serializer = EmployeeSerializer(employee, context={'request': request})
+        return Response(serializer.data)

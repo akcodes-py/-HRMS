@@ -1,5 +1,6 @@
 """HRMS URL Configuration"""
 from django.contrib import admin
+from django.http import JsonResponse
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
@@ -14,6 +15,12 @@ from employees.views import EmployeeViewSet
 from attendance.views import AttendanceViewSet
 from leaves.views import LeaveViewSet
 
+
+def health_check(request):
+    """Liveness probe used by Railway and monitoring. No auth required."""
+    return JsonResponse({'status': 'ok'})
+
+
 router = DefaultRouter()
 router.register(r'employees', EmployeeViewSet, basename='employee')
 router.register(r'attendance', AttendanceViewSet, basename='attendance')
@@ -21,6 +28,9 @@ router.register(r'leaves', LeaveViewSet, basename='leave')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Liveness probe (unauthenticated).
+    path('api/health/', health_check, name='health-check'),
 
     # JWT Auth
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
